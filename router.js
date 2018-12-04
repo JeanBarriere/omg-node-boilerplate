@@ -1,17 +1,17 @@
 const requireContext = require('require-context')
-const path = require('path')
-const files = requireContext(path.join(__dirname, './src'), false, /\.js$/)
-const routesFiles = requireContext(path.join(__dirname, './src'), false, /\.json$/)
+const src = require('path').join(__dirname, './src')
+const files = requireContext(src, false, /\.js$/)
+const routeFiles = requireContext(src, false, /\.json$/)
 /* list of available actions */
 const actions = {}
 var routes = {}
 
 files.keys().forEach(key => {
   if (key === 'index.js') return
-  actions[key.replace(/(\.\/|\.js)/g, '')] = files(key)
+  actions[key.slice(0, -3)] = files(key) // slice(0, -3) to delete the extension ('.js')
 })
 
-routesFiles.keys().forEach(key => {
+routeFiles.keys().forEach(key => {
   if (key === 'index.js') return
   routes = { ...routes, ...files(key) }
 })
@@ -22,9 +22,8 @@ const fetchBody = (route, body) => {
     try {
       body = JSON.parse(body)
       for (let c of route.arguments) {
-        if ((!body[c.name] && c.required) || (c.type && typeof body[c.name] !== c.type)) {
-          throw new Error('missing content')
-        }
+        if (!body[c.name] && c.required) throw new Exception(`${c.name} is required`)
+        if (c.type && typeof body[c.name] !== c.type) throw new Exception(`${c.name} of type ${typeof body[c.name]} should be of type ${c.type}`)
       }
       resolve(body)
     } catch (err) {
@@ -62,8 +61,8 @@ module.exports = {
   from: function (req) { this.req = req; return this }, // assign request
   with: function (body) { this.body = body; return this }, // assign body
   to: function (res) { // process to res
-    if (!this.body || !this.req) { // if we're missing anything => 500 empty response
-      write(500, res);
+    if (!this.body || !this.req) { // if we're missing anything => 500 response
+      write(500, res, 'Request or body not found');
       return
     }
     let route = this.req.url.substr(1)
@@ -78,7 +77,7 @@ module.exports = {
         write(400, res, err)
       })
     } else {
-      write(404, res) // the route is not defined -> 404 empty response
+      write(404, res, 'Action not found') // the route is not defined -> 404 response
     }
   }
 }

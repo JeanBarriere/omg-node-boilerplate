@@ -8,4 +8,4 @@ http.createServer((req, res) => {
   req.on('end', () => {
     router.from(req).with(body).to(res)
   })
-}).listen(process.env.PUBSUB_PORT || 5000)
+}).listen(process.env.PORT || 5000)
