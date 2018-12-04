@@ -12,7 +12,7 @@ _Warning: This repository is currently under development. Don't hesitate to help
 Create a `routes.json` file inside the `src` directory to match your microservices actions:
 ```json
 {
-  "/action": {
+  "action": {
     "arguments": [{
       "name": "dataName",
       "type": "string",
