@@ -43,7 +43,7 @@ You can run the `omg-cli` to build your service with the command `omg build`
 
 Run any action with `omg exec action -a dataName="!"`
 
-It will wait for 1500ms and then print `hello world !`
+In our case, it will wait for 1500ms and then print `hello world !`
 
 [Full documentation](https://microservice.guide)
 
