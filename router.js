@@ -21,7 +21,7 @@ const fetchBody = (route, body) => {
   return new Promise((resolve, reject) => {
     try {
       body = JSON.parse(body)
-      for (let c of route.body) {
+      for (let c of route.arguments) {
         if ((!body[c.name] && c.required) || (c.type && typeof body[c.name] !== c.type)) {
           throw new Error('missing content')
         }
@@ -36,7 +36,7 @@ const fetchBody = (route, body) => {
 /* makeBody create the arguments array, based on the body */
 const makeBody = (route, body) => {
   let args = []
-  for (let c of route.body) {
+  for (let c of route.arguments) {
     args.push(body[c.name] || undefined)
   }
   return args

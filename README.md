@@ -13,7 +13,7 @@ Create a `routes.json` file inside the `src` directory to match your microservic
 ```json
 {
   "/action": {
-    "body": [{
+    "arguments": [{
       "name": "dataName",
       "type": "string",
       "required": true
@@ -24,8 +24,11 @@ Create a `routes.json` file inside the `src` directory to match your microservic
 }
 ```
 > You can split the routes into different files, like `action1.json`, `action2.json`, still in the src directory
+
 > action `types` possible values: `number|int|float|string|uuid|list|map|boolean|path|object|any`
+
 > `outputType` can also be `application/json` if you want to return an object, other values accepted
+
 Then create the action file based on its `fn` property name, like: `src/fnName.js`
 ```js
 module.exports = (dataName) => {
