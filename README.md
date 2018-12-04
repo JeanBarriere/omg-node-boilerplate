@@ -38,6 +38,15 @@ module.exports = (dataName) => {
 }
 ```
 
+## Usage
+You can run the `omg-cli` to build your service with the command `omg build`
+
+Run any action with `omg exec action -a dataName="!"`
+
+It will wait for 1500ms and then print `hello world !`
+
+[Full documentation](https://microservice.guide)
+
 ## You need an extra library ?
 Don't forget to import it in your `Dockerfile` as well as your `package.json` 
 ```Dockerfile
@@ -46,10 +55,3 @@ FROM node:current-alpine
 RUN npm install dependency
 ...
 ```
-
-## Usage
-You can run the `omg-cli` to build your service with the command `omg build`
-
-Run any action with `omg exec action -a key="val"`
-
-[Full documentation](https://microservice.guide)
