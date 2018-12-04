@@ -22,8 +22,8 @@ const fetchBody = (route, body) => {
     try {
       body = JSON.parse(body)
       for (let c of route.arguments) {
-        if (!body[c.name] && c.required) throw new Exception(`${c.name} is required`)
-        if (c.type && typeof body[c.name] !== c.type) throw new Exception(`${c.name} of type ${typeof body[c.name]} should be of type ${c.type}`)
+        if (!body[c.name] && c.required) throw new Error(`${c.name} is required`)
+        if (c.type && typeof body[c.name] !== c.type) throw new Error(`${c.name} of type ${typeof body[c.name]} should be of type ${c.type}`)
       }
       resolve(body)
     } catch (err) {
