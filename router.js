@@ -1,13 +1,19 @@
 const requireContext = require('require-context')
 const path = require('path')
-const files = requireContext(path.join(__dirname, './src/actions'), false, /\.js$/)
-
+const files = requireContext(path.join(__dirname, './src'), false, /\.js$/)
+const routesFiles = requireContext(path.join(__dirname, './src'), false, /\.json$/)
 /* list of available actions */
 const actions = {}
+var routes = {}
 
 files.keys().forEach(key => {
   if (key === 'index.js') return
   actions[key.replace(/(\.\/|\.js)/g, '')] = files(key)
+})
+
+routesFiles.keys().forEach(key => {
+  if (key === 'index.js') return
+  routes = { ...routes, ...files(key) }
 })
 
 /* fetchBody ensure the body arguments are there, based from the route */
@@ -52,20 +58,18 @@ const write = (code, res, err, headers = {}) => {
 
 module.exports = {
   req: undefined, // request to use
-  routes: undefined, // routes array
   body: undefined, // body to use
-  process: function (routes) { this.routes = routes; return this }, // assign routes
   from: function (req) { this.req = req; return this }, // assign request
   with: function (body) { this.body = body; return this }, // assign body
   to: function (res) { // process to res
-    if (!this.routes || !this.body || !this.req) { // if we're missing anything => 500 empty response
+    if (!this.body || !this.req) { // if we're missing anything => 500 empty response
       write(500, res);
       return
     }
-    if (Object.keys(this.routes).includes(this.req.url)) { // if the route is defined
-      fetchBody(this.routes[this.req.url], this.body).then((body) => { // clean the body based on the route
-        call(this.routes[this.req.url], body).then((ret) => { // call the route action and get the return value
-          write(200, res, ret, { 'Content-Length': Buffer.byteLength(ret), 'Content-Type': this.routes[this.req.url].outputType })
+    if (Object.keys(routes).includes(this.req.url)) { // if the route is defined
+      fetchBody(routes[this.req.url], this.body).then((body) => { // clean the body based on the route
+        call(routes[this.req.url], body).then((ret) => { // call the route action and get the return value
+          write(200, res, ret, { 'Content-Length': Buffer.byteLength(ret), 'Content-Type': routes[this.req.url].outputType })
         }).catch((err) => { // if any error from call()
           write(400, res, err)
         })
