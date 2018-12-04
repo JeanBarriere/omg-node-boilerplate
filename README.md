@@ -48,7 +48,8 @@ RUN npm install dependency
 ```
 
 ## Usage
-
 You can run the `omg-cli` to build your service with the command `omg build`
+
 Run any action with `omg exec action -a key="val"`
+
 [Full documentation](https://microservice.guide)
