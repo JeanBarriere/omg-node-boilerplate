@@ -66,10 +66,11 @@ module.exports = {
       write(500, res);
       return
     }
-    if (Object.keys(routes).includes(this.req.url)) { // if the route is defined
-      fetchBody(routes[this.req.url], this.body).then((body) => { // clean the body based on the route
-        call(routes[this.req.url], body).then((ret) => { // call the route action and get the return value
-          write(200, res, ret, { 'Content-Length': Buffer.byteLength(ret), 'Content-Type': routes[this.req.url].outputType })
+    let route = this.req.url.substr(1)
+    if (Object.keys(routes).includes(route)) { // if the route is defined
+      fetchBody(routes[route], this.body).then((body) => { // clean the body based on the route
+        call(routes[route], body).then((ret) => { // call the route action and get the return value
+          write(200, res, ret, { 'Content-Length': Buffer.byteLength(ret), 'Content-Type': routes[route].outputType })
         }).catch((err) => { // if any error from call()
           write(400, res, err)
         })
