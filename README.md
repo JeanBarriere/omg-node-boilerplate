@@ -55,3 +55,9 @@ FROM node:current-alpine
 RUN npm install dependency
 ...
 ```
+
+## Built with omg-node-boilerplate
+
+| Name | Link | Description |
+| :--- | :--- | :--- |
+| jwt | [microservice/jwt](https://github.com/microservice/jwt) | build and validate JWT tokens |
