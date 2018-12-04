@@ -1,0 +1,19 @@
+{
+  "name": "omg-node-boilerplate",
+  "version": "1.0.0",
+  "description": "Node.js boilerplate for OMG services",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeanBarriere/omg-node-boilerplate.git"
+  },
+  "author": "Jean Barriere",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JeanBarriere/omg-node-boilerplate/issues"
+  },
+  "homepage": "https://github.com/JeanBarriere/omg-node-boilerplate#readme",
+  "dependencies": {
+    "require-context": "^1.1.0"
+  }
+}
