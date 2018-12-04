@@ -33,7 +33,7 @@ Then create the action file based on its `fn` property name, like: `src/fnName.j
 ```js
 module.exports = (dataName) => {
   return new Promise(resolve => {
-    setTimeout(resolve('hello world', dataName), 1500)
+    setTimeout(resolve(`hello world ${dataName}`), 1500)
   })
 }
 ```
@@ -43,7 +43,7 @@ You can run the `omg-cli` to build your service with the command `omg build`
 
 Run any action with `omg exec action -a dataName="!"`
 
-In our case, it will wait for 1500ms and then print `hello world !`
+In our case, it will wait for 1500ms and then return `hello world !`
 
 [Full documentation](https://microservice.guide)
 
